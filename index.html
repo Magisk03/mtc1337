@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Profile Card</title>
+  <title>⚡ Mag1sk1337</title>
   <style>
     :root{
       --bg:#070707;
@@ -80,8 +80,8 @@
       gap:22px;
     }
     .panel{
-      background:linear-gradient(180deg, rgba(18,18,22,.30), rgba(10,10,12,.26));
-      border:1px solid rgba(255,255,255,.06);
+      background:linear-gradient(180deg, rgba(18,18,22,.04), rgba(10,10,12,.03));
+      border:1px solid rgba(255,255,255,.14);
       border-radius:12px;
       box-shadow:0 12px 40px rgba(0,0,0,.45);
       backdrop-filter:blur(18px) saturate(120%);
@@ -103,13 +103,83 @@
       background:radial-gradient(600px 260px at 50% 0%, rgba(255,255,255,.06), transparent 60%);
       pointer-events:none;
     }
-    .avatar{
+    .avatar-wrap{
+      position:relative;
       width:96px;
       height:96px;
       border-radius:50%;
+      display:grid;
+      place-items:center;
+      isolation:isolate;
+      overflow:visible;
+    }
+    .avatar-wrap::before{
+      content:none;
+    }
+    .pendant{
+      position:absolute;
+      inset:-18px;
+      width:calc(100% + 36px);
+      height:calc(100% + 36px);
+      object-fit:contain;
+      filter:drop-shadow(0 0 12px rgba(255,120,230,.8));
+      animation:ring-float 2.6s ease-in-out infinite;
+      pointer-events:none;
+      z-index:2;
+      -webkit-mask:radial-gradient(circle, transparent 54%, #000 60%);
+      mask:radial-gradient(circle, transparent 54%, #000 60%);
+    }
+    .avatar-wrap::after{
+      content:"";
+      position:absolute;
+      inset:-20px;
+      border-radius:22px;
+      background:radial-gradient(circle, rgba(255,107,214,.18), transparent 60%);
+      opacity:.9;
+      z-index:-1;
+      pointer-events:none;
+    }
+    .avatar-wrap.small{
+      width:65px;
+      height:65px;
+    }
+    .avatar-wrap.small::before{
+      border-radius:16px;
+      -webkit-mask:radial-gradient(circle, transparent 52%, #000 58%);
+      mask:radial-gradient(circle, transparent 52%, #000 58%);
+    }
+    .pendant.small{
+      inset:-14px;
+      width:calc(100% + 28px);
+      height:calc(100% + 28px);
+      -webkit-mask:radial-gradient(circle, transparent 52%, #000 58%);
+      mask:radial-gradient(circle, transparent 52%, #000 58%);
+    }
+    .avatar-wrap.small::after{
+      inset:-16px;
+      border-radius:18px;
+    }
+    .avatar-frame.small{
+      border-width:1px;
+      box-shadow:0 0 0 3px rgba(123,60,255,.15);
+    }
+    .avatar-frame{
+      width:100%;
+      height:100%;
+      border-radius:50%;
+      overflow:hidden;
       border:2px solid #2a2a30;
       box-shadow:0 0 0 4px rgba(123,60,255,.15);
+      position:relative;
+      z-index:1;
+      background:#0f0f12;
+    }
+    .avatar{
+      width:100%;
+      height:100%;
+      border-radius:50%;
       object-fit:cover;
+      display:block;
     }
     .name{
       font-size:20px;
@@ -187,8 +257,8 @@
       align-items:center;
       justify-content:space-between;
       gap:12px;
-      background:linear-gradient(180deg, rgba(18,18,22,.32), rgba(10,10,12,.28));
-      border:1px solid rgba(255,255,255,.06);
+      background:linear-gradient(180deg, rgba(18,18,22,.04), rgba(10,10,12,.03));
+      border:1px solid rgba(255,255,255,.14);
       border-radius:10px;
     }
     .left{
@@ -197,9 +267,15 @@
       gap:12px;
     }
     .mini{
-      width:65px;height:65px;border-radius:50%;
-      border:1px solid #2a2a30;
+      width:65px;
+      height:65px;
+      border-radius:50%;
       object-fit:cover;
+      display:block;
+    }
+    .avatar-wrap .mini{
+      width:100%;
+      height:100%;
     }
     .tag{color:var(--accent);font-weight:600;}
     .chip{
@@ -262,12 +338,21 @@
       .item{flex-direction:column;align-items:flex-start;}
       .player{width:100%;}
     }
+    @keyframes ring-float{
+      0%,100%{transform:translateY(0) scale(1);}
+      50%{transform:translateY(-2px) scale(1.01);}
+    }
   </style>
 </head>
-<body class="stars map">
+<body class="stars">
   <div class="wrap">
     <section class="panel hero">
-      <img class="avatar" src="合并2.gif" alt="avatar" />
+      <div class="avatar-wrap">
+        <img class="pendant" src="b6054ceea0934acb2a7649c0b25ac9d6.png" alt="" />
+        <div class="avatar-frame">
+          <img class="avatar" src="合并2.gif" alt="avatar" />
+        </div>
+      </div>
       <div class="name">𝙈𝙖𝙜𝙞𝙨𝙠</div>
       <div class="sub">Welcome to Mag1sk ESU-TEAM</div>
       <a class="steam" href="https://steamcommunity.com/id/Magisk1337/" target="_blank" rel="noopener" aria-label="steam" data-tooltip="𝗦𝗧𝗘𝗔𝗠">
@@ -278,7 +363,12 @@
     <div class="list">
       <section class="item panel">
         <div class="left">
-          <img class="mini" src="合并2.gif" alt="mini" />
+          <div class="avatar-wrap small">
+            <img class="pendant small" src="b6054ceea0934acb2a7649c0b25ac9d6.png" alt="" />
+            <div class="avatar-frame small">
+              <img class="mini" src="合并2.gif" alt="mini" />
+            </div>
+          </div>
           <div>
             <div class="tag">𝙈𝙖𝙜𝙞𝙨𝙠</div>
           </div>
