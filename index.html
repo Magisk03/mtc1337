@@ -578,16 +578,26 @@
     });
 
     const visitCounter = document.getElementById("visitCounter");
-    const VISITS_API = "https://mtc1337-visits.magisk0311.workers.dev/api/visits";
+    const VISITS_API = "https://mtc1337-visits.magisk0311.workers.dev/api/visits?inc=1";
     if (visitCounter) {
       fetch(VISITS_API, { cache: "no-store" })
         .then((res) => res.ok ? res.json() : null)
         .then((data) => {
-          if (data && typeof data.visits === "number") {
+          if (data && typeof data.total === "number") {
+            if (typeof data.today === "number") {
+              visitCounter.textContent = `VISITS: ${data.total} | TODAY: ${data.today}`;
+            } else {
+              visitCounter.textContent = `VISITS: ${data.total}`;
+            }
+          } else if (data && typeof data.visits === "number") {
             visitCounter.textContent = `VISITS: ${data.visits}`;
+          } else {
+            visitCounter.textContent = "VISITS: ERR";
           }
         })
-        .catch(() => {});
+        .catch(() => {
+          visitCounter.textContent = "VISITS: ERR";
+        });
     }
 
     const wrap = document.querySelector(".wrap");
