@@ -113,6 +113,21 @@
         0 0 18px rgba(255,255,255,.35);
       pointer-events:none;
     }
+    .hero-visits{
+      position:absolute;
+      top:12px;
+      right:16px;
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:.4px;
+      color:#0b0b0f;
+      text-transform:uppercase;
+      text-shadow:
+        0 0 10px rgba(255,255,255,.85),
+        0 0 24px rgba(255,255,255,.6),
+        0 0 40px rgba(255,255,255,.35);
+      pointer-events:none;
+    }
     .hero::after{
       content:"";
       position:absolute;
@@ -412,6 +427,7 @@
   <div class="wrap">
     <section class="panel hero">
       <div class="hero-badge">𝘛𝘏𝘌 𝘉𝘌𝘚𝘛 𝘓𝘌𝘎𝘐𝘛 𝘗𝘓𝘈𝘠𝘌𝘙</div>
+      <div class="hero-visits" id="visitCounter">VISITS: --</div>
       <div class="avatar-wrap">
         <img class="pendant" src="b6054ceea0934acb2a7649c0b25ac9d6.png" alt="" />
         <div class="avatar-frame">
@@ -560,6 +576,19 @@
         tryAutoplay();
       }, { once:true });
     });
+
+    const visitCounter = document.getElementById("visitCounter");
+    const VISITS_API = "https://mtc1337-visits.magisk0311.workers.dev/api/visits";
+    if (visitCounter) {
+      fetch(VISITS_API, { cache: "no-store" })
+        .then((res) => res.ok ? res.json() : null)
+        .then((data) => {
+          if (data && typeof data.visits === "number") {
+            visitCounter.textContent = `VISITS: ${data.visits}`;
+          }
+        })
+        .catch(() => {});
+    }
 
     const wrap = document.querySelector(".wrap");
     const tiltTargets = document.querySelectorAll(".hero, .item.panel");
