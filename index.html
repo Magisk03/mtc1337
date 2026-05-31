@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
@@ -97,6 +97,7 @@
       overflow:hidden;
       width:min(760px,90vw);
       transform-style:preserve-3d;
+      perspective:900px;
       transition:transform .25s ease, box-shadow .25s ease;
     }
     .hero-badge{
@@ -327,6 +328,7 @@
       border:1px solid rgba(255,255,255,.14);
       border-radius:10px;
       transform-style:preserve-3d;
+      perspective:900px;
       transition:transform .25s ease, box-shadow .25s ease;
     }
     .left{
@@ -665,20 +667,15 @@
         });
     }
 
-    const wrap = document.querySelector(".wrap");
     const tiltTargets = document.querySelectorAll(".hero, .item.panel");
-    if (wrap && tiltTargets.length) {
+    if (tiltTargets.length) {
       let tiltEnabled = true;
-      const lockTilt = () => {
-        tiltEnabled = false;
-      };
-      const unlockTilt = () => {
-        tiltEnabled = true;
-      };
+      const lockTilt = () => { tiltEnabled = false; };
+      const unlockTilt = () => { tiltEnabled = true; };
       document.addEventListener("pointerup", unlockTilt);
       document.addEventListener("mouseup", unlockTilt);
       document.addEventListener("pointercancel", unlockTilt);
-      wrap.querySelectorAll("input").forEach((el) => {
+      document.querySelectorAll("input").forEach((el) => {
         el.addEventListener("pointerdown", lockTilt);
         el.addEventListener("mousedown", lockTilt);
         el.addEventListener("pointerup", unlockTilt);
@@ -686,25 +683,21 @@
         el.addEventListener("pointercancel", unlockTilt);
         el.addEventListener("touchend", unlockTilt);
       });
-      wrap.addEventListener("mousemove", (e) => {
-        if (!tiltEnabled || e.buttons === 1) return;
-        const rect = wrap.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const cx = rect.width / 2;
-        const cy = rect.height / 2;
-        const dx = (x - cx) / cx;
-        const dy = (y - cy) / cy;
-        const max = 12;
-        const rotateY = dx * max;
-        const rotateX = -dy * max;
-        tiltTargets.forEach((card) => {
-          card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      tiltTargets.forEach((card) => {
+        card.addEventListener("mousemove", (e) => {
+          if (!tiltEnabled || e.buttons === 1) return;
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          const cx = rect.width / 2;
+          const cy = rect.height / 2;
+          const dx = (x - cx) / cx;
+          const dy = (y - cy) / cy;
+          const max = 12;
+          card.style.transform = `rotateX(${dy * max}deg) rotateY(${-dx * max}deg)`;
           card.style.boxShadow = "0 22px 60px rgba(0,0,0,.6)";
         });
-      });
-      wrap.addEventListener("mouseleave", () => {
-        tiltTargets.forEach((card) => {
+        card.addEventListener("mouseleave", () => {
           card.style.transform = "";
           card.style.boxShadow = "";
         });
