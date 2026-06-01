@@ -1,4 +1,4 @@
-﻿﻿<!DOCTYPE html>
+﻿﻿﻿﻿﻿﻿﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
@@ -613,10 +613,19 @@
         volume.value = String(next);
         volume.dispatchEvent(new Event("input", { bubbles: true }));
       };
+      let pointerActive = false;
       volumeWrap.addEventListener("pointerdown", (e) => {
-        if (e.pointerType === "mouse" && e.button !== 0) return;
+        if ((e.pointerType === "mouse" && e.button !== 0)) return;
+        pointerActive = true;
+        volume.setPointerCapture(e.pointerId);
         setVolumeFromPointer(e);
       });
+      volumeWrap.addEventListener("pointermove", (e) => {
+        if (!pointerActive) return;
+        setVolumeFromPointer(e);
+      });
+      volumeWrap.addEventListener("pointerup", () => { pointerActive = false; });
+      volumeWrap.addEventListener("pointercancel", () => { pointerActive = false; });
       volumeWrap.addEventListener("click", (e) => {
         if (e.target === volume) return;
         setVolumeFromPointer(e);
