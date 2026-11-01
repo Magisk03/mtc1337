@@ -233,6 +233,7 @@
     .sub{
       color:#6d6d77;
       font-size:12px;
+      text-shadow:0 0 6px rgba(255,255,255,.28);
     }
     .socials{
       margin-top:6px;
@@ -342,6 +343,23 @@
       align-items:center;
       gap:12px;
     }
+    .discord-stats{display:flex;align-items:center;gap:6px;margin-top:5px;color:#a8a29e;font-size:12px;}
+    .discord-stats span:not(.status-dot){text-shadow:0 0 5px rgba(255,255,255,.3);}
+    .discord-stats .status-dot{width:7px;height:7px;flex:0 0 7px;border-radius:50%;background:#05d78c;}
+    .discord-stats .status-dot.members{margin-left:5px;background:#a8a29e;}
+    .discord-card{min-height:86px;padding:10px 18px;}
+    .discord-left{flex:1;min-width:0;gap:16px;}
+    .discord-avatar{width:64px;height:64px;flex:0 0 64px;}
+    .discord-info{min-width:0;}
+    .discord-name-row{display:flex;align-items:center;gap:6px;min-width:0;}
+    .discord-name{overflow:hidden;color:#ff00ae;font-size:14px;font-weight:700;text-overflow:ellipsis;white-space:nowrap;}
+    .discord-badge-tip{position:relative;display:inline-flex;flex:0 0 18px;width:18px;height:18px;outline:none;}
+    .discord-badge{display:block;width:18px;height:18px;object-fit:contain;}
+    .discord-badge-tip::after{content:attr(data-tooltip);position:absolute;z-index:8;top:calc(100% + 7px);left:50%;transform:translateX(-50%);padding:6px 10px;border:1px solid rgba(255,255,255,.16);border-radius:6px;background:rgba(8,8,8,.96);box-shadow:0 0 14px rgba(255,255,255,.16);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:#fff;font:600 11px/1.2 "Segoe UI",sans-serif;white-space:nowrap;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .15s ease,visibility .15s ease;}
+    .discord-badge-tip:hover::after,.discord-badge-tip:focus-visible::after{opacity:1;visibility:visible;}
+    .discord-card .discord-stats{gap:5px;margin-top:3px;white-space:nowrap;}
+    .discord-join{display:grid;place-items:center;min-width:64px;padding:7px 14px;border:1px solid #ffffff18;border-radius:7px;background:#0c0c0f;color:#ff00ae;font-size:12px;font-weight:600;text-decoration:none;transition:background .18s,border-color .18s;}
+    .discord-join:hover{border-color:#ff00ae66;background:#171017;}
     .mini{
       width:65px;
       height:65px;
@@ -518,6 +536,13 @@
       .list{gap:10px;}
       .item{flex-direction:column;align-items:flex-start;padding:10px 12px;gap:8px;}
       .item .left{width:100%;}
+      .item.discord-card{flex-direction:row;align-items:center;gap:8px;padding:10px;}
+      .item.discord-card .discord-left{width:auto;}
+      .discord-avatar{width:52px;height:52px;flex-basis:52px;}
+      .discord-name{font-size:12px;}
+      .discord-card .discord-stats{font-size:10px;gap:4px;}
+      .discord-card .status-dot{width:6px;height:6px;flex-basis:6px;}
+      .discord-join{min-width:58px;padding:7px 10px;font-size:11px;}
       .item .chip{align-self:flex-start;}
       .panel-link{width:100%;min-width:unset;padding:9px 12px;font-size:12px;text-align:center;}
       .player{width:100%;flex-wrap:wrap;gap:6px;}
@@ -593,16 +618,23 @@
         <div class="chip">𝑮𝑮𝑬𝒁</div>
       </section>
 
-      <section class="item panel">
-        <div class="left">
-          <img class="mini" src="mtc.jpg" alt="avatar" />
-          <div>
-            <div class="notice">𝘿𝙞𝙨𝙘𝙤𝙧𝙙 𝙨𝙚𝙧𝙫𝙚𝙧</div>
-            <div class="muted">
-              <a class="link" href="https://discord.gg/sAC4HEYY6w" target="_blank" rel="noopener">Mag1sk ESU-TEAM</a>
+      <section class="item panel discord-card">
+        <div class="left discord-left">
+          <img class="mini discord-avatar" src="mtc.jpg" alt="服务器头像" />
+          <div class="discord-info">
+            <div class="discord-name-row">
+              <span class="discord-name">木糖醇𝑬𝒔𝒖-𝑻𝒆𝒂𝒎</span>
+              <span class="discord-badge-tip" data-tooltip="Community Server" tabindex="0" aria-label="Community Server">
+                <img class="discord-badge" src="discord-server-badge.png" alt="" />
+              </span>
+            </div>
+            <div class="discord-stats" id="discord-stats" aria-live="polite" aria-busy="true">
+              <span class="status-dot" aria-hidden="true"></span><span id="discord-online">-- Online</span>
+              <span class="status-dot members" aria-hidden="true"></span><span id="discord-members">-- Members</span>
             </div>
           </div>
         </div>
+        <a class="discord-join" href="https://discord.gg/sAC4HEYY6w" target="_blank" rel="noopener">𝐉𝐨𝐢𝐧</a>
       </section>
 
       <section class="item panel">
@@ -632,7 +664,7 @@
       </button>
       <input class="music-range music-volume" id="music-volume" type="range" min="0" max="100" value="30" aria-label="音量" />
     </div>
-    <button class="music-button music-toggle" id="music-toggle" type="button" aria-label="展开音乐播放器" aria-expanded="false" title="音乐播放器">
+    <button class="music-button music-toggle" id="music-toggle" type="button" aria-label="展开音乐播放器" aria-expanded="false">
       <svg data-play viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4.5 20 12 6 19.5Z" /></svg>
       <svg data-pause viewBox="0 0 24 24" aria-hidden="true" hidden><rect x="5" y="4" width="5" height="16" rx="1"/><rect x="14" y="4" width="5" height="16" rx="1"/></svg>
       <svg data-close viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M5 5 19 19M19 5 5 19" /></svg>
@@ -697,7 +729,31 @@
       document.getElementById("page").hidden = false;
       music.hidden = false;
       if (audio.paused) audio.play().catch(() => {});
+      loadDiscordCounts();
     }, { once: true });
+
+    const discordStats = document.getElementById("discord-stats");
+    const discordOnline = document.getElementById("discord-online");
+    const discordMembers = document.getElementById("discord-members");
+    const DISCORD_COUNTS_API = "https://discord-server-counts.magisk0311.workers.dev/api/discord";
+    async function loadDiscordCounts() {
+      if (document.hidden) return;
+      discordStats.setAttribute("aria-busy", "true");
+      try {
+        const response = await fetch(DISCORD_COUNTS_API, { cache: "no-store" });
+        if (!response.ok) throw new Error(`Discord counts request failed: ${response.status}`);
+        const data = await response.json();
+        if (!Number.isFinite(data.online) || !Number.isFinite(data.members)) throw new Error("Invalid Discord counts");
+        discordOnline.textContent = `${data.online.toLocaleString()} Online`;
+        discordMembers.textContent = `${data.members.toLocaleString()} Members`;
+      } catch {
+        discordOnline.textContent = "Online unavailable";
+        discordMembers.textContent = "Members unavailable";
+      } finally {
+        discordStats.setAttribute("aria-busy", "false");
+      }
+    }
+    window.setInterval(loadDiscordCounts, 60000);
 
     const visitCounter = document.getElementById("visitCounter");
     const VISITS_API = "https://mtc1337-visits.magisk0311.workers.dev/api/visits?inc=1";
